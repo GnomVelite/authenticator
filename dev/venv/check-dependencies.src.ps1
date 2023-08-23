@@ -5,8 +5,8 @@
 # pip install cryptography, iso8601
 #
 #
-$cffiExpectedVsn_ = Extract-Version "1.6.0"
-$cffiMaxVsn_ = Extract-Version "1.6.1"
+$cffiExpectedVsn_ = Extract-Version "1.15.0"
+$cffiMaxVsn_ = Extract-Version "1.15.1"
 $cryptographyExpectedVsn_ = Extract-Version "1.4"
 $cryptographyMaxVsn_ = Extract-Version "1.5"
 $idnaExpectedVsn_ = Extract-Version "2.1"

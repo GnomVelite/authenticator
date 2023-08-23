@@ -20,18 +20,22 @@ $errcode_ = 0
 #
 . "$scriptDir_\check-functions.src.ps1"
 
+Write-Output ("Test 1")
+
 # Check that we are running in a Python 3.5 virtual environment
 #
 . "$scriptDir_\check-active-venv.src.ps1"
 If (0 -ne $errcode_) {
   Exit
 }
-
+Write-Output ("Test 3")
 # Install required packages
 #
 $rcmd_ = "pip"
 $rargs_ = "install -q -r `"$scriptDir_\requirements-venv.txt`"" -split " "
 Invoke-Expression "$rcmd_ $rargs_"
+
+Write-Output ("Test 4")
 
 # Check that we have the needed packages
 #

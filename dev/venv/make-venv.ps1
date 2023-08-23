@@ -12,10 +12,10 @@ $scriptName_ = $MyInvocation.InvocationName
 
 $venvDirName_ = "venv35"
 $save_venvDirName_ = "$venvDirName_" + "_bkup"
-$pythonVersion_ = "3.10"
-$pythonInstallbase_ = "C:\Program Files\Python $pythonVersion_"
+$pythonVersion_ = "310"
+$pythonInstallbase_ = (Join-Path ([System.Environment]::ExpandEnvironmentVariables('%LOCALAPPDATA%')) "\Programs\Python\Python$pythonVersion_")
 
-# Check whether Python 3.5 is installed
+# Check whether Python 3.10 is installed
 #
 $pythonInstalled_ = Get-ChildItem "$pythonInstallbase_" |
   Where-Object {($_.Name -eq "python.exe")}
@@ -94,14 +94,14 @@ If ($venvRunning_ -eq $null)
   Exit
 }
 
-# Check whether we are running Python 3.5
+# Check whether we are running Python 3.10
 #
 $rcmd_ = "python"
 $rargs_ = "--version 2>&1" -split " "
 $vsn_ = Invoke-Expression "$rcmd_ $rargs_"
 if ($vsn_ -NotLike "Python 3.*")
 {
-  Write-Output "ERROR: Python 3.5 or later is required. Found '$vsn'."
+  Write-Output "ERROR: Python 3.10 or later is required. Found '$vsn'."
   Write-Output ""
   Write-Output "Deactivate the current virtual environment."
   Write-Output ("Try '.\$venvDirName_\Scripts\Activate.ps1' to start the " `
@@ -123,7 +123,7 @@ deactivate
 # Done!
 #
 Write-Output ""
-Write-Output "OK. Virtual environment for Python 3.5 is created."
+Write-Output "OK. Virtual environment for Python 3.10 is created."
 Write-Output "Use command '.\$venvDirName_\Scripts\Activate.ps1' to start;"
 Write-Output "Use command 'deactivate' to stop."
 Write-Output ""

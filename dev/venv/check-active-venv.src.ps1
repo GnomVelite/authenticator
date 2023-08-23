@@ -4,7 +4,7 @@
 
 $venvDirname_ = "venv35"
 $pythonExpectedVsn_ = Extract-Version "3.5.1"
-$pythonMaxVsn_ = Extract-Version "3.6.0"
+$pythonMaxVsn_ = Extract-Version "3.11.0"
 
 # Check whether we are running in a python virtual environment
 #
