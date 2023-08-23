@@ -12,7 +12,7 @@ $scriptName_ = $MyInvocation.InvocationName
 
 $venvDirName_ = "venv35"
 $save_venvDirName_ = "$venvDirName_" + "_bkup"
-$pythonVersion_ = "3.5"
+$pythonVersion_ = "3.10"
 $pythonInstallbase_ = "C:\Program Files\Python $pythonVersion_"
 
 # Check whether Python 3.5 is installed
@@ -22,9 +22,9 @@ $pythonInstalled_ = Get-ChildItem "$pythonInstallbase_" |
 If ($pythonInstalled_ -eq $null)
 {
   Write-Output ""
-  Write-Output "ERROR: Python 3.5 is not installed."
+  Write-Output "ERROR: Python 3.10 is not installed."
   Write-Output "       Expected '$pythonInstallbase_\python.exe'"
-  Write-Output "Install Python 3.5 and then try '.\$scriptName_' again."
+  Write-Output "Install Python 3.10 and then try '.\$scriptName_' again."
   Exit
 }
 
