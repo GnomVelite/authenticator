@@ -6,7 +6,7 @@
 #
 #
 $cffiExpectedVsn_ = Extract-Version "1.15.0"
-$cffiMaxVsn_ = Extract-Version "1.15.1"
+$cffiMaxVsn_ = Extract-Version "1.16.1"
 $cryptographyExpectedVsn_ = Extract-Version "1.4"
 $cryptographyMaxVsn_ = Extract-Version "1.5"
 $idnaExpectedVsn_ = Extract-Version "2.1"
@@ -125,6 +125,7 @@ Function Check-DependentVersion {
 $rcmd_ = "pip"
 $rargs_ = "list" -split " "
 $pkgs_ = Invoke-Expression "$rcmd_ $rargs_"
+Write-Output ($pkgs_)
 
 # Check whether cffi installed
 #

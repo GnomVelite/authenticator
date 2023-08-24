@@ -48,6 +48,8 @@ Function IsInstalled-PythonPackage {
         [Parameter(ParameterSetName="inrange")]
         [PSObject]$PipPackages
     )
+    $test = "^$Name"
+    Write-Host "Running IsInstalled-PythonPackage for package: $test"
     # Initialize the result
     #
     $props = @{
@@ -64,9 +66,9 @@ Function IsInstalled-PythonPackage {
         $rargs_ = "list" -split " "
         $PipPackages = Invoke-Expression "$rcmd_ $rargs_"
     }
-    $result.Installed = $pkgs_ -match "^$Name \(" -as [boolean]
+    $result.Installed = $pkgs_ -match "^$Name" -as [boolean]
     If ($result.Installed) {
-        $result.FullVersion = ($pkgs_ -match "^$Name \(")[0] | Extract-Version
+        $result.FullVersion = ($pkgs_ -match "^$Name")[0] | Extract-Version
         If ((Test-Version $result.FullVersion -IsAtLeast $MinVersion) `
         -and (Test-Version $result.FullVersion -IsLessThan $MaxVersion)) {
             $result.InRange = $True
