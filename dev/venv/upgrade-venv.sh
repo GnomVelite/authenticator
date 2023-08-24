@@ -1,7 +1,7 @@
 #! /bin/bash
 #
-# These scripts assumes that Python 3.5 is installed via Mac Ports.
-# If Python 3.5 is installed some other way, then the scripts will
+# These scripts assumes that Python 3.10 is installed via Mac Ports.
+# If Python 3.10 is installed some other way, then the scripts will
 # need some adjustment.
 #
 
@@ -17,7 +17,7 @@ if [[ ! -d "$SCRIPTDIR_" ]]; then SCRIPTDIR_="$PWD"; fi
 #
 . "${SCRIPTDIR_}/check-functions.src"
 
-# Check that we are running in a Python 3.5 virtual environment
+# Check that we are running in a Python 3.10 virtual environment
 #
 . "${SCRIPTDIR_}/check-active-venv.src"
 
@@ -37,5 +37,5 @@ pip install --upgrade -q -r "${SCRIPTDIR_}/requirements-venv.txt"
 #
 echo ""
 echo -n "OK. May have upgraded required packages for project in "
-echo "Python 3.5 virtual environment."
+echo "Python 3.10 virtual environment."
 echo ""

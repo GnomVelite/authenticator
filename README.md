@@ -13,7 +13,7 @@
 
 ## Benefit
 
-The benefit of using `authenticator` over a phone app is that this CLI utility can run anywhere Python 3.5 can run from a command line interface (e.g., a terminal window), and the database of accounts and secrets is a platform-independent passphrase-protected encrypted file that can be backed up and can be copied to multiple systems without fear of bad actors gaining access to the second factor authentication.
+The benefit of using `authenticator` over a phone app is that this CLI utility can run anywhere Python 3.10 can run from a command line interface (e.g., a terminal window), and the database of accounts and secrets is a platform-independent passphrase-protected encrypted file that can be backed up and can be copied to multiple systems without fear of bad actors gaining access to the second factor authentication.
 
 Another benefit is that `authenticator` can act as a backup in case you loose your phone or tablet (running Google Authenticator) or Google breaks the app or withdraws it.
 
@@ -61,11 +61,11 @@ Google:example@gmail.com 996752 (expires in 22 seconds)
 
 ## System Requirements
 
-This requires Python 3.5 or later.
+This requires Python 3.10 or later.
 
-It has been tested on OS X 11.9.5, Windows 10, and Ubuntu 14.04. As none of those systems come with Python 3.5 out of the box, you'll need to install that yourself.
+It has been tested on Windows 11. As none of those systems come with Python 3.10 out of the box, you'll need to install that yourself.
 
-And I recommend setting up a Python 3.5 virtual environment in which to install `authenticator`.
+And I recommend setting up a Python 3.10 virtual environment in which to install `authenticator`.
 
 ## Installation
 
@@ -202,7 +202,7 @@ I've validated the pseudocode and this implementation against [RFC6238][rfc6238]
 
 This implementation requires:
 
-* Python 3.5 or later
+* Python 3.10 or later
 * [cryptography 1.4][cryptography]
 * [iso8601 0.1.11][iso8601]
 

@@ -30,7 +30,7 @@ RUN apt-get update && apt-get -y upgrade \
 	apt-get install -yqq software-properties-common python-software-properties && \
 	apt-get -yqq install wget
 
-# Install Python 3.5
+# Install Python 3.10
 #
 ENV PYTHON35_REFRESHED_AT 2016-06-08T05:25-0500
 RUN add-apt-repository ppa:fkrull/deadsnakes && \

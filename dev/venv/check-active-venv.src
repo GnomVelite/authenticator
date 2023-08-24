@@ -19,7 +19,7 @@ if [ 0 == ${VENV_RUNNING_} ]; then
   exit 2
 fi
 
-# Check whether we are running Python 3.5
+# Check whether we are running Python 3.10
 #
 PYTHON_DOWNLOAD_LOC_="https://www.python.org/"
 PYTHON_FULL_VSN_=`python --version  2>&1 | grep "Python [0-9]"`

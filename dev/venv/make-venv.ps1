@@ -1,7 +1,7 @@
-# This script assumes that Python 3.5 is installed in
-# C:\Program Files\Python 3.5
+# This script assumes that Python 3.10 is installed in
+# C:\Program Files\Python 3.10
 #
-# If Python 3.5 is installed some other way, then the script will
+# If Python 3.10 is installed some other way, then the script will
 # need some adjustment.
 #
 Set-Strictmode -version Latest

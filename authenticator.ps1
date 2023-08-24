@@ -16,7 +16,7 @@ $errcode_ = 0
 #
 . "$scriptDir_\dev\venv\check-functions.src.ps1"
 
-# Check that we are running in a Python 3.5 virtual environment
+# Check that we are running in a Python 3.10 virtual environment
 #
 . "$scriptDir_\dev\venv\check-active-venv.src.ps1"
 If (0 -ne $errcode_) {
@@ -25,7 +25,7 @@ If (0 -ne $errcode_) {
 
 # Check that we have the needed packages
 #
-# We need: flake8, pep8-naming, pep257
+# We need: flake8, pep8-naming, pydocstyle
 #
 . "$scriptDir_\dev\venv\check-dependencies.src.ps1"
 If (0 -ne $errcode_) {

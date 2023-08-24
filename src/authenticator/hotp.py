@@ -45,7 +45,7 @@ RFC6238.
 
 This implementation requires:
 
-* Python 3.5 or later
+* Python 3.10 or later
 * cryptography 1.3 or later (see https://cryptography.io/en/latest/)
 * python-dateutil 2.1 or later
     (see https://pypi.python.org/pypi/python-dateutil/2.1)
@@ -97,16 +97,14 @@ class HOTP:
                 number.
 
         """
-        if ((1 > code_length) or
-                (10 < code_length)):
-            raise ValueError('code_length must be in the range [1,10]')
+        if (1 > code_length) or (10 < code_length):
+            raise ValueError("code_length must be in the range [1,10]")
         if not isinstance(hash, bytes):
-            raise TypeError('hash must be a byte string')
+            raise TypeError("hash must be a byte string")
         if 4 != len(hash):
-            raise ValueError(
-                'hmac must be a byte string of length 8 (4 bytes)')
+            raise ValueError("hmac must be a byte string of length 8 (4 bytes)")
 
-        int_hash = int.from_bytes(hash, 'big', signed=False)
+        int_hash = int.from_bytes(hash, "big", signed=False)
         code = int_hash % (10**code_length)
         code_string = str(code)
         # pad on left as needed to achieve codeLength digits
@@ -150,8 +148,8 @@ class HOTP:
 
         # make sure period is an integer
         period = int(period)
-        if (0 >= period):
-            raise ValueError('period must be positive integer')
+        if 0 >= period:
+            raise ValueError("period must be positive integer")
 
         local_now = datetime.datetime.now()
         seconds_now = time.mktime(local_now.timetuple())
@@ -197,8 +195,7 @@ class HOTP:
         try:
             secret_key = base64.b32decode(base32_secret_key)
         except binascii.Error:
-            raise ValueError(
-                'Wrong length, incorrect padding, or embedded whitespace')
+            raise ValueError("Wrong length, incorrect padding, or embedded whitespace")
         return secret_key
 
     def generate_code_from_counter(self, secret_key, counter, code_length=6):
@@ -236,12 +233,11 @@ class HOTP:
             # make counter a byte string
             counter = self.num_to_counter(counter)
         if 8 != len(counter):
-            raise ValueError('counter must be 8 bytes')
+            raise ValueError("counter must be 8 bytes")
         # make sure codeLength is an integer
         code_length = int(code_length)
-        if ((1 > code_length) or
-                (10 < code_length)):
-            raise ValueError('code_length must be in the range [1,10]')
+        if (1 > code_length) or (10 < code_length):
+            raise ValueError("code_length must be in the range [1,10]")
         if not isinstance(secret_key, bytes):
             secret_key = self.convert_base32_secret_key(secret_key)
 
@@ -261,8 +257,7 @@ class HOTP:
         # code := truncated_hash mod 1000000
         # pad code with 0 until length of code is 6
         #
-        code_string = self.code_from_hash(
-            truncated_hash, code_length=code_length)
+        code_string = self.code_from_hash(truncated_hash, code_length=code_length)
         # return code
         #
         return code_string
@@ -292,13 +287,12 @@ class HOTP:
         """
         # make sure period is an integer
         period = int(period)
-        if (0 >= period):
-            raise ValueError('period must be positive integer')
+        if 0 >= period:
+            raise ValueError("period must be positive integer")
         # make sure codeLength is an integer
         code_length = int(code_length)
-        if ((1 > code_length) or
-                (10 < code_length)):
-            raise ValueError('code_length must be in the range [1,10]')
+        if (1 > code_length) or (10 < code_length):
+            raise ValueError("code_length must be in the range [1,10]")
         if not isinstance(secret_key, bytes):
             secret_key = self.convert_base32_secret_key(secret_key)
 
@@ -318,8 +312,7 @@ class HOTP:
         # code := truncated_hash mod 1000000
         # pad code with 0 until length of code is 6
         #
-        code_string = self.code_from_hash(
-            truncated_hash, code_length=code_length)
+        code_string = self.code_from_hash(truncated_hash, code_length=code_length)
         # return code, remaining seconds
         #
         return code_string, int(period - remaining_seconds)
@@ -346,11 +339,11 @@ class HOTP:
         import hmac
 
         if not isinstance(secret_key, bytes):
-            raise TypeError('secret_key must be a byte string')
+            raise TypeError("secret_key must be a byte string")
         if not isinstance(counter, bytes):
-            raise TypeError('counter must be a byte string')
-        if (8 != len(counter)):
-            raise ValueError('counter must be 8 bytes')
+            raise TypeError("counter must be a byte string")
+        if 8 != len(counter):
+            raise ValueError("counter must be 8 bytes")
 
         hmac = hmac.new(secret_key, counter, sha1)
         hash = hmac.digest()
@@ -374,16 +367,16 @@ class HOTP:
             ValueError: if hmac is not a byte string 20 bytes in length.
         """
         if not isinstance(hmac, bytes):
-            raise TypeError('hmac must be a byte string')
+            raise TypeError("hmac must be a byte string")
         if 20 != len(hmac):
-            raise ValueError('hmac must be a byte string of length 20')
+            raise ValueError("hmac must be a byte string of length 20")
 
         # offset := last nibble of hash
         #
         offset = int("0" + hex(hmac[-1])[-1], 16)
         # Get the 4 bytes starting at the offset
         #
-        chunk = hmac[offset:(offset + 4)]
+        chunk = hmac[offset : (offset + 4)]
         # Set the first bit of truncatedHash to zero
         # (remove the most significant bit)
         #
@@ -417,16 +410,16 @@ class HOTP:
         """
         inum = int(num)
         if (0 > inum) or (2**64 <= inum):
-            raise ValueError('num')
+            raise ValueError("num")
         s_hex = hex(int(num))[2:]
         l_hex = len(s_hex)
-        s_hex = ('0' * (16-l_hex)) + s_hex
+        s_hex = ("0" * (16 - l_hex)) + s_hex
         ba_counter = bytes.fromhex(s_hex)
         return ba_counter
 
-# in progress
+    # in progress
 
-# not yet tested
+    # not yet tested
 
     def generate_secret_key(self):
         """Generate a cryptographically random secret key."""

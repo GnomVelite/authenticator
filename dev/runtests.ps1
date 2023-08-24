@@ -16,7 +16,7 @@ $errcode_ = 0
 #
 . "$scriptDir_\venv\check-functions.src.ps1"
 
-# Check that we are running in a Python 3.5 virtual environment
+# Check that we are running in a Python 3.10 virtual environment
 #
 . "$scriptDir_\venv\check-active-venv.src.ps1"
 If (0 -ne $errcode_) {

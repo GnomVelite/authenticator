@@ -26,8 +26,8 @@ FLAKE8_EXP_VSN_=2.5.4
 FLAKE8_MAX_VSN_=2.5.5
 MCCABE_EXP_VSN_=0.4.0
 MCCABE_MAX_VSN_=0.4.1
-PEP257_EXP_VSN_=0.7.0
-PEP257_MAX_VSN_=0.7.1
+pydocstyle_EXP_VSN_=0.7.0
+pydocstyle_MAX_VSN_=0.7.1
 PEP8_EXP_VSN_=1.7.0
 PEP8_MAX_VSN_=1.7.1
 PEP8NAMING_EXP_VSN_=0.3.3
@@ -155,7 +155,7 @@ if (( 0 != $? )); then
   exit 8
 fi
 
-check_dependent_version "pep257" "${PEP257_EXP_VSN_}" "${PEP257_MAX_VSN_}"
+check_dependent_version "pydocstyle" "${pydocstyle_EXP_VSN_}" "${pydocstyle_MAX_VSN_}"
 if (( 0 != $? )); then
   for s in "${check_dependent_version[@]}"; do
     printf "%s\n" "$s"

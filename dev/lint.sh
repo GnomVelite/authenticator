@@ -57,13 +57,13 @@ if [ 0 == ${PEP8NAMING_INSTALLED_} ]; then
   exit 1
 fi
 
-# Check whether pep257 is installed
+# Check whether pydocstyle is installed
 #
-PEP257_INSTALLED_=`pip list | grep "^pep257 (" | wc -l | tr -d [[:space:]]`
-if [ 0 == ${PEP257_INSTALLED_} ]; then
-  echo "ERROR: pep257 is not installed"
+pydocstyle_INSTALLED_=`pip list | grep "^pydocstyle (" | wc -l | tr -d [[:space:]]`
+if [ 0 == ${pydocstyle_INSTALLED_} ]; then
+  echo "ERROR: pydocstyle is not installed"
   echo
-  echo "Try 'pip install pep257' to install pep257, and"
+  echo "Try 'pip install pydocstyle' to install pydocstyle, and"
   echo "then try '${SCRIPTNAME_}' again."
   echo
   exit 1
@@ -82,7 +82,7 @@ count_errors() {
 #
 pushd src/authenticator > /dev/null
 flake8 --exclude=ez_setup.py --max-complexity=10 . > fixme.lint.txt 2>&1
-pep257 --match='(?!ez_setup).*\.py' . >> fixme.lint.txt 2>&1
+pydocstyle --match='(?!ez_setup).*\.py' . >> fixme.lint.txt 2>&1
 ERROR_COUNT_=`count_errors`
 if (( 0 == ERROR_COUNT_ )); then
   echo "$(tput setaf 10)./src/authenticator is OK.$(tput sgr0)"
@@ -93,7 +93,7 @@ popd > /dev/null
 
 pushd tests > /dev/null
 flake8 --max-complexity=10 . > fixme.lint.txt 2>&1
-pep257 --match='.*\.py' . >> fixme.lint.txt 2>&1
+pydocstyle --match='.*\.py' . >> fixme.lint.txt 2>&1
 ERROR_COUNT_=`count_errors`
 if (( 0 == ERROR_COUNT_ )); then
   echo "$(tput setaf 10)./tests is OK.$(tput sgr0)"

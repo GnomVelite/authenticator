@@ -10,7 +10,7 @@ Encrypts data using supply passphrase.
 
 This implementation requires:
 
-    * Python 3.5 or later
+    * Python 3.10 or later
     * cryptography 1.3 or later (see https://cryptography.io/en/latest/)
     * python-dateutil 2.1 or later
         (see https://pypi.python.org/pypi/python-dateutil/2.1)
@@ -52,13 +52,13 @@ class ClientDataDecoder(json.JSONDecoder):
         """
         self._other_object_hook = None
         kw_args_new = kw_args.copy()
-        if 'object_hook' in kw_args:
-            self._other_object_hook = kw_args['object_hook']
-        kw_args_new['object_hook'] = self._object_decode
+        if "object_hook" in kw_args:
+            self._other_object_hook = kw_args["object_hook"]
+        kw_args_new["object_hook"] = self._object_decode
         # Note: strict=False because the notes attribute might contain
         #       line feeds.
         #
-        kw_args_new['strict'] = False
+        kw_args_new["strict"] = False
 
         self._decoder = json.JSONDecoder(**kw_args_new)
 
@@ -73,8 +73,7 @@ class ClientDataDecoder(json.JSONDecoder):
             original object d.
 
         """
-        if ((isinstance(d, dict)) and
-                ('clientId' in d)):
+        if (isinstance(d, dict)) and ("clientId" in d):
             cd = ClientData(**d)
             return cd
         elif self._other_object_hook is not None:
@@ -110,7 +109,7 @@ class ClientDataEncoder(json.JSONEncoder):
         ClassData then invoke the superclass default() method.
 
         """
-        if (ClientData.__name__ == o.__class__.__name__):
+        if ClientData.__name__ == o.__class__.__name__:
             return o.to_dict()
         else:
             return json.JSONEncoder.default(self, o)
@@ -155,10 +154,8 @@ class ClientData:
             # Strip off the microseconds, or the deltatime won't be in
             # round seconds
             #
-            lt = datetime(
-                lt.year, lt.month, lt.day, lt.hour, lt.minute, lt.second)
-            ut = datetime(
-                ut.year, ut.month, ut.day, ut.hour, ut.minute, ut.second)
+            lt = datetime(lt.year, lt.month, lt.day, lt.hour, lt.minute, lt.second)
+            ut = datetime(ut.year, ut.month, ut.day, ut.hour, ut.minute, ut.second)
 
             # Get UTC offset as a timedelta object
             #
@@ -167,7 +164,7 @@ class ClientData:
             # Get UTC offset in minutes
             #
             offset_minutes = 0
-            if (0 == dt.days):
+            if 0 == dt.days:
                 offset_minutes = dt.seconds // 60
             else:
                 dt = lt - ut
@@ -184,9 +181,9 @@ class ClientData:
 
     def _init_client_id(self, kw_args):
         """Process kw_arg client_id."""
-        if 'clientId' not in kw_args:
+        if "clientId" not in kw_args:
             raise ValueError("Need a clientId string.")
-        self.__client_id = kw_args['clientId']
+        self.__client_id = kw_args["clientId"]
         if not isinstance(self.__client_id, str):
             raise TypeError("clientId must be a string.")
         if 0 == len(self.__client_id):
@@ -194,32 +191,31 @@ class ClientData:
 
     def _init_shared_secret(self, kw_args):
         """Process kw_arg shared_secret."""
-        if 'sharedSecret' not in kw_args:
+        if "sharedSecret" not in kw_args:
             raise ValueError("Need a sharedSecret string.")
-        self.__shared_secret = kw_args['sharedSecret']
-        if not ((isinstance(self.__shared_secret, str)) or
-                (isinstance(self.__shared_secret, bytes))):
-            raise TypeError(
-                "sharedSecret must be a string or byte string.")
+        self.__shared_secret = kw_args["sharedSecret"]
+        if not (
+            (isinstance(self.__shared_secret, str))
+            or (isinstance(self.__shared_secret, bytes))
+        ):
+            raise TypeError("sharedSecret must be a string or byte string.")
         if 0 == len(self.__shared_secret):
-            raise ValueError(
-                "sharedSecret must be a non-empty string or byte string.")
+            raise ValueError("sharedSecret must be a non-empty string or byte string.")
 
     def _init_counter_from_time(self, kw_args):
         """Process kw_arg counter_from_time."""
         self.__counter_from_time = True
-        if 'counterFromTime' in kw_args:
-            if not kw_args['counterFromTime']:
+        if "counterFromTime" in kw_args:
+            if not kw_args["counterFromTime"]:
                 self.__counter_from_time = False
 
     def _init_last_count(self, kw_args):
         """Process kw_arg last_count."""
         self.__last_count = 0
-        if 'lastCount' in kw_args:
-            self.__last_count = int(kw_args['lastCount'])
+        if "lastCount" in kw_args:
+            self.__last_count = int(kw_args["lastCount"])
         if 0 > self.__last_count:
-            raise ValueError(
-                "lastCount must be zero or a positive integer")
+            raise ValueError("lastCount must be zero or a positive integer")
 
     def _init_last_count_update_time(self, kw_args):
         """Process kw_arg kw_arg last_count_update_time."""
@@ -227,14 +223,14 @@ class ClientData:
         import iso8601
 
         self.__last_count_update_time = datetime(
-            1, 1, 1, 0, 0, 0, 0, ClientData.utz()).strftime(self._isoFmt)
+            1, 1, 1, 0, 0, 0, 0, ClientData.utz()
+        ).strftime(self._isoFmt)
         # Fix issue on some systems, e.g. Debian, where %Y doesn't zero-pad
         if self.__last_count_update_time[0:3] != "000":
-            self.__last_count_update_time = "000" + \
-                self.__last_count_update_time
-        if 'lastCountUpdateTime' in kw_args:
+            self.__last_count_update_time = "000" + self.__last_count_update_time
+        if "lastCountUpdateTime" in kw_args:
             t = datetime.min
-            v = kw_args['lastCountUpdateTime']
+            v = kw_args["lastCountUpdateTime"]
             if isinstance(v, datetime):
                 t = v
             elif isinstance(v, str):
@@ -242,7 +238,8 @@ class ClientData:
             else:
                 raise TypeError(
                     "lastCountUpdateTime must be datetime object"
-                    " or a datetime string")
+                    " or a datetime string"
+                )
             if t.tzinfo is None:
                 t = t.replace(tzinfo=ClientData.utz())
             self.__last_count_update_time = t.strftime(self._isoFmt)
@@ -255,52 +252,49 @@ class ClientData:
             elif 1000 > t.year:
                 tpadding = "0"
             if "0" != self.__last_count_update_time[0:1]:
-                self.__last_count_update_time = tpadding + \
-                    self.__last_count_update_time
+                self.__last_count_update_time = tpadding + self.__last_count_update_time
 
     def _init_period(self, kw_args):
         """Process kw_arg period."""
         self.__period = 30
-        if 'period' in kw_args:
-            p = int(kw_args['period'])
-            if (0 >= p):
+        if "period" in kw_args:
+            p = int(kw_args["period"])
+            if 0 >= p:
                 raise ValueError("period must be a positive integer")
             self.__period = p
 
     def _init_password_length(self, kw_args):
         """Process kw_arg password_length."""
         self.__password_length = 6
-        if 'passwordLength' in kw_args:
-            pwd_len = int(kw_args['passwordLength'])
-            if ((1 > pwd_len) or (10 < pwd_len)):
+        if "passwordLength" in kw_args:
+            pwd_len = int(kw_args["passwordLength"])
+            if (1 > pwd_len) or (10 < pwd_len):
                 raise ValueError("passwordLength must be in the range [1,10]")
             self.__password_length = pwd_len
 
     def _init_tags(self, kw_args):
         """Process kw_arg tags."""
         self.__tags = []
-        if 'tags' in kw_args:
-            if (isinstance(kw_args['tags'], tuple) or
-                    isinstance(kw_args['tags'], list)):
-                for tag in kw_args['tags']:
+        if "tags" in kw_args:
+            if isinstance(kw_args["tags"], tuple) or isinstance(kw_args["tags"], list):
+                for tag in kw_args["tags"]:
                     if not isinstance(tag, str):
-                        raise TypeError(
-                            "tags must be a sequence of string values")
+                        raise TypeError("tags must be a sequence of string values")
                     if 0 < len(tag):
                         self.__tags.append(tag)
-            elif isinstance(kw_args['tags'], str):
-                if 0 < len(kw_args['tags']):
-                    self.__tags.append(kw_args['tags'])
+            elif isinstance(kw_args["tags"], str):
+                if 0 < len(kw_args["tags"]):
+                    self.__tags.append(kw_args["tags"])
             else:
                 raise TypeError("tags must be a sequence of string values")
 
     def _init_note(self, kw_args):
         """Process kw_arg note."""
         self.__note = ""
-        if 'note' in kw_args:
-            if not isinstance(kw_args['note'], str):
+        if "note" in kw_args:
+            if not isinstance(kw_args["note"], str):
                 raise TypeError("note must be a string")
-            self.__note = kw_args['note']
+            self.__note = kw_args["note"]
 
     # ------------------------------------------------------------------------+
     # dunder methods
@@ -357,15 +351,15 @@ class ClientData:
         result = []
         result.append("client_id: '{0}'".format(self.__client_id))
         result.append("shared_secret: '{0}'".format(self.__shared_secret))
-        result.append(
-            "counter_from_time: {0}".format(self.__counter_from_time))
+        result.append("counter_from_time: {0}".format(self.__counter_from_time))
         result.append("last_count: {0}".format(self.__last_count))
-        result.append("last_count_update_time: {0}".format(
-            self.__last_count_update_time))
+        result.append(
+            "last_count_update_time: {0}".format(self.__last_count_update_time)
+        )
         result.append("period: {0}".format(self.__period))
         result.append("password_length: {0}".format(self.__password_length))
         result.append("tags: {0}".format(self.__tags))
-        result.append("note: \"\"\"{0}\"\"\"".format(self.__note))
+        result.append('note: """{0}"""'.format(self.__note))
         return "\n".join(result)
 
     def __eq__(self, other):
@@ -397,14 +391,12 @@ class ClientData:
     def __repr__(self):
         """Canonical string representation of this object."""
         result = []
+        result.append("ClientData(client_id='{0}',".format(self.__client_id))
+        result.append("shared_secret='{0}',".format(self.__shared_secret))
         result.append(
-            "ClientData(client_id='{0}',".format(self.__client_id))
-        result.append(
-            "shared_secret='{0}',".format(self.__shared_secret))
-        result.append(
-            "last_count_update_time='{0}')".format(
-                self.__last_count_update_time))
-        return ' '.join(result)
+            "last_count_update_time='{0}')".format(self.__last_count_update_time)
+        )
+        return " ".join(result)
 
     # -------------------------------------------------------------------------+
     # properties
@@ -506,8 +498,7 @@ class ClientData:
             elif 1000 > update_time.year:
                 tpadding = "0"
             if "0" != self.__last_count_update_time[0:1]:
-                self.__last_count_update_time = tpadding + \
-                    self.__last_count_update_time
+                self.__last_count_update_time = tpadding + self.__last_count_update_time
         else:
             self.__last_count_update_time = update_time
 
@@ -541,15 +532,15 @@ class ClientData:
         Used by ClientDataEncoder, a JSONEncoder.
 
         """
-        d = {'clientId': self.__client_id}
-        d.update({'sharedSecret': self.__shared_secret})
-        d.update({'counterFromTime': self.__counter_from_time})
-        d.update({'lastCount': self.__last_count})
-        d.update({'lastCountUpdateTime': self.__last_count_update_time})
-        d.update({'period': self.__period})
-        d.update({'passwordLength': self.__password_length})
-        d.update({'tags': self.__tags})
-        d.update({'note': self.__note})
+        d = {"clientId": self.__client_id}
+        d.update({"sharedSecret": self.__shared_secret})
+        d.update({"counterFromTime": self.__counter_from_time})
+        d.update({"lastCount": self.__last_count})
+        d.update({"lastCountUpdateTime": self.__last_count_update_time})
+        d.update({"period": self.__period})
+        d.update({"passwordLength": self.__password_length})
+        d.update({"tags": self.__tags})
+        d.update({"note": self.__note})
         return d
 
 
@@ -609,17 +600,17 @@ class ClientFile:
             The decrypted data as a byte string.
 
         """
-        from cryptography.hazmat.primitives.ciphers \
-            import Cipher, algorithms, modes
+        from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
         from cryptography.hazmat.backends import default_backend
 
         backend = default_backend()
         cypher = Cipher(
-            algorithms.AES(self.__key), modes.CBC(self.__iv), backend=backend)
+            algorithms.AES(self.__key), modes.CBC(self.__iv), backend=backend
+        )
         decryptor = cypher.decryptor()
         result = decryptor.update(b) + decryptor.finalize()
         if strip_padding:
-            result = result[:-result[-1]]
+            result = result[: -result[-1]]
         return result
 
     def _encrypt(self, b):
@@ -634,13 +625,13 @@ class ClientFile:
             The encrypted data as a byte string.
 
         """
-        from cryptography.hazmat.primitives.ciphers \
-            import Cipher, algorithms, modes
+        from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
         from cryptography.hazmat.backends import default_backend
 
         backend = default_backend()
         cypher = Cipher(
-            algorithms.AES(self.__key), modes.CBC(self.__iv), backend=backend)
+            algorithms.AES(self.__key), modes.CBC(self.__iv), backend=backend
+        )
         encryptor = cypher.encryptor()
         pad_length = 16 - (len(b) % 16)
         b += bytes([pad_length]) * pad_length
@@ -662,7 +653,8 @@ class ClientFile:
 
         """
         from hashlib import sha256
-        pp = bytes(passphrase, 'utf-8')
+
+        pp = bytes(passphrase, "utf-8")
         hash_alg = sha256(pp)
         for i in range(self._get_key_stretches()):
             d = hash_alg.digest()
@@ -712,8 +704,7 @@ class ClientFile:
         # file_version = struct.unpack("!I", decrypted_header[4:8])[0]
         # key_stretches = struct.unpack("!I", decrypted_header[8:12])[0]
         magic_number2 = struct.unpack("!I", decrypted_header[12:])[0]
-        if (self.__magic_number != magic_number1 or
-                self.__magic_number != magic_number2):
+        if self.__magic_number != magic_number1 or self.__magic_number != magic_number2:
             raise DecryptionError()
         if cleartext_header != decrypted_header:
             raise FileCorruptionError()
@@ -735,14 +726,14 @@ class ClientFile:
             The list of ClientData objects found in the data file.
 
         """
-        cypher_text = b''
-        with open(filepath, 'rb') as f:
+        cypher_text = b""
+        with open(filepath, "rb") as f:
             header = f.read(16)
             cypher_text = f.read()
         data = self._decrypt(cypher_text)
         decrypted_header = data[:16]
         self._validate_header(header, decrypted_header)
-        plain_text = str(data[16:], 'utf-8')
+        plain_text = str(data[16:], "utf-8")
         cds = json.loads(plain_text, cls=ClientDataDecoder)
         if cds is None:
             cds = []
@@ -763,21 +754,26 @@ class ClientFile:
         import struct
 
         plain_text = json.dumps(
-            client_data_list, sort_keys=True, indent=4, separators=(',', ': '),
-            cls=ClientDataEncoder)
-        header = b''.join([
-            struct.pack("!I", self.__magic_number),
-            struct.pack("!I", self.__file_version),
-            struct.pack("!I", self.__key_stretches),
-            struct.pack("!I", self.__magic_number)])
-        data = b''.join([
-            header,
-            bytes(plain_text, 'utf-8')])
+            client_data_list,
+            sort_keys=True,
+            indent=4,
+            separators=(",", ": "),
+            cls=ClientDataEncoder,
+        )
+        header = b"".join(
+            [
+                struct.pack("!I", self.__magic_number),
+                struct.pack("!I", self.__file_version),
+                struct.pack("!I", self.__key_stretches),
+                struct.pack("!I", self.__magic_number),
+            ]
+        )
+        data = b"".join([header, bytes(plain_text, "utf-8")])
         if new_passphrase is not None:
             self.__key = self._produce_key(new_passphrase)
             self.__iv = self._produce_iv(self.__key)
         cypher_text = self._encrypt(data)
-        with open(filepath, 'wb') as f:
+        with open(filepath, "wb") as f:
             f.write(header)
             f.write(cypher_text)
 
@@ -797,9 +793,9 @@ class ClientFile:
             is invalid, or both are invalid).
 
         """
-        header_bytes = b''
-        cypher_bytes = b''
-        with open(filepath, 'rb') as f:
+        header_bytes = b""
+        cypher_bytes = b""
+        with open(filepath, "rb") as f:
             header_bytes = f.read(16)
             cypher_bytes = f.read(16)
         data = self._decrypt(cypher_bytes, strip_padding=False)

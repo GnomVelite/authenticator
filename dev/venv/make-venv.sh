@@ -1,7 +1,7 @@
 #! /bin/bash
 #
-# This script assumes that Python 3.5 is installed via Mac Ports.
-# If Python 3.5 is installed some other way, then the script will
+# This script assumes that Python 3.10 is installed via Mac Ports.
+# If Python 3.10 is installed some other way, then the script will
 # need some adjustment.
 #
 
@@ -21,10 +21,10 @@ PYTHON_VERSION_=3.5
 PYTHON_INSTALLROOT_=/opt/local/Library/Frameworks/Python.framework/Versions
 PYTHON_INSTALLBASE_=${PYTHON_INSTALLROOT_}/${PYTHON_VERSION_}
 
-# Check whether Python 3.5 is installed via Mac Ports
+# Check whether Python 3.10 is installed via Mac Ports
 #
 if ! [ -d "${PYTHON_INSTALLBASE_}" ]; then
-  echo "ERROR: Python 3.5 is not installed."
+  echo "ERROR: Python 3.10 is not installed."
   echo "       Expected '${PYTHON_INSTALLBASE_}'"
   echo "Install using 'sudo port install python35'."
   exit 2
@@ -87,11 +87,11 @@ if [ 0 == ${VENV_RUNNING} ]; then
   exit 10
 fi
 
-# Check whether we are running Python 3.5
+# Check whether we are running Python 3.10
 #
 export PYVER_=`python --version 2>&1 | grep "^Python 3\.5\." | wc -l | tr -d [[:space:]]`
 if [ 0 == ${PYVER_} ]; then
-  echo "ERROR: Python 3.5 is required. Found "`python --version`"."
+  echo "ERROR: Python 3.10 is required. Found "`python --version`"."
   echo
   deactivate
   exit 12
@@ -109,7 +109,7 @@ deactivate
 # Done!
 #
 echo ""
-echo "OK. Virtual environment for Python 3.5 is created."
+echo "OK. Virtual environment for Python 3.10 is created."
 echo "Use source command '. ${SCRIPTDIR_}/activate-project.src' to start;"
 echo "Use command alias 'deactivate-project' to stop."
 echo ""

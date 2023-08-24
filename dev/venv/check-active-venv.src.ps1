@@ -20,7 +20,7 @@ If (-not (Test-Path Env:VIRTUAL_ENV)) {
   Exit
 }
 
-# Check whether we are running Python 3.5
+# Check whether we are running Python 3.10
 #
 $pythonDownloadLoc_="https://www.python.org/"
 $rcmd_ = "python"

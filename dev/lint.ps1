@@ -16,7 +16,7 @@ $errcode_ = 0
 #
 . "$scriptDir_\venv\check-functions.src.ps1"
 
-# Check that we are running in a Python 3.5 virtual environment
+# Check that we are running in a Python 3.10 virtual environment
 #
 . "$scriptDir_\venv\check-active-venv.src.ps1"
 If (0 -ne $errcode_) {
@@ -25,7 +25,7 @@ If (0 -ne $errcode_) {
 
 # Check that we have the needed packages
 #
-# We need: flake8, pep8-naming, pep257
+# We need: flake8, pep8-naming, pydocstyle
 #
 . "$scriptDir_\venv\check-dependencies.src.ps1"
 If (0 -ne $errcode_) {
@@ -74,7 +74,7 @@ Push-Location ".\src\authenticator"
 $rcmd = "flake8"
 $rargs = "--exclude=ez_setup.py --max-complexity=10 ." -split " "
 & $rcmd $rargs | Out-File fixme.lint.txt 2>&1
-$rcmd = "pep257"
+$rcmd = "pydocstyle"
 $rargs = "--match='(?!ez_setup).*\.py' ." -split " "
 & $rcmd $rargs | Out-File -Append fixme.lint.txt 2>&1
 $errorCount_ = Count-LintErrors "fixme.lint.txt"
@@ -91,7 +91,7 @@ Push-Location ".\tests"
 $rcmd = "flake8"
 $rargs = "--max-complexity=10 ." -split " "
 & $rcmd $rargs | Out-File fixme.lint.txt 2>&1
-$rcmd = "pep257"
+$rcmd = "pydocstyle"
 $rargs = "--match='(?!ez_setup).*\.py' ." -split " "
 & $rcmd $rargs | Out-File -Append fixme.lint.txt 2>&1
 $errorCount_ = Count-LintErrors "fixme.lint.txt"

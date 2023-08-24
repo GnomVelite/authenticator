@@ -26,8 +26,8 @@ $flake8ExpectedVsn_ = Extract-Version "2.5.4"
 $flake8MaxVsn_ = Extract-Version "6.1.1"
 $mccabeExpectedVsn_ = Extract-Version "0.4.0"
 $mccabeMaxVsn_ = Extract-Version "0.7.1"
-$pep257ExpectedVsn_ = Extract-Version "0.7.0"
-$pep257MaxVsn_ = Extract-Version "0.7.2"
+$pydocstyleExpectedVsn_ = Extract-Version "6.3.0"
+$pydocstyleMaxVsn_ = Extract-Version "6.3.1"
 $pep8ExpectedVsn_ = Extract-Version "1.7.0"
 $pep8MaxVsn_ = Extract-Version "1.7.2"
 $pep8namingExpectedVsn_ = Extract-Version "0.3.3"
@@ -218,10 +218,10 @@ If (0 -lt $msg_.Count) {
     Exit
 }
 
-# Check whether pep257 installed
+# Check whether pydocstyle installed
 #
-$msg_ = Check-DependentVersion "pep257" -MinVersion $pep257ExpectedVsn_ `
-    -MaxVersion $pep257MaxVsn_ -PipPackages $pkgs_
+$msg_ = Check-DependentVersion "pydocstyle" -MinVersion $pydocstyleExpectedVsn_ `
+    -MaxVersion $pydocstyleMaxVsn_ -PipPackages $pkgs_
 If (0 -lt $msg_.Count) {
     Write-Output $( $msg_ -Join "`n" )
     $errcode_ = 8
